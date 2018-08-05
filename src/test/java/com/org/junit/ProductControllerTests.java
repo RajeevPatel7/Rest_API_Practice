@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.org.model.Product;
@@ -40,7 +42,6 @@ import com.org.model.Product;
 public class ProductControllerTests extends AbstractJunitTest {
 	private static Long prodId = 0L;
 
-	@Test
 	public void test_CreateProducts() throws Exception {
 		String url = "/product";
 		Product prod = new Product();
@@ -51,22 +52,18 @@ public class ProductControllerTests extends AbstractJunitTest {
 		assertEquals(200, statusCode);
 		Product product = mapFromJson(result.getResponse().getContentAsString(), Product.class);
 		prodId = product.getId();
-		System.out.println("Produ Id" + prodId);
 		assertTrue(prodId != null);
 
 	}
 
-	@Test
 	public void test_getProducts() throws Exception {
 		String url = "/products";
-		MvcResult result = this.mockMvc.perform(get(url)).andReturn();
-		int statusCode = result.getResponse().getStatus();
-		assertEquals(statusCode, 200);
-		Product[] prod = mapFromJson(result.getResponse().getContentAsString(), Product[].class);
-		assertTrue(prod.length > 0);
+		 this.mockMvc.perform(get(url)).
+		 	andExpect(MockMvcResultMatchers.status().isOk()).
+		 	andExpect(jsonPath("$", org.hamcrest.Matchers.hasSize(2)));
+		 	
 	}
 	
-	@Test
 	public void test_getProduct() throws Exception {
 		String url = "/product/{id}";
 		MvcResult result = this.mockMvc.perform(get(url, 234)).andReturn();
@@ -76,7 +73,7 @@ public class ProductControllerTests extends AbstractJunitTest {
 	}
 	
 	public void test_UpdateProduct() throws JsonProcessingException, Exception {
-		String url = "product";
+		String url = "/product";
 		Product prod = new Product();
 		prod.setId(234L);
 		prod.setName("Mobile");
@@ -89,10 +86,22 @@ public class ProductControllerTests extends AbstractJunitTest {
 	}
 	
 	public void test_DeleteProduct() throws Exception {
-		String url = "product/{id}";
+		String url = "/product/{id}";
 		MvcResult result = this.mockMvc.perform(delete(url, 234L)).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
-		assertFalse(result.getResponse().getContentAsString() != null);
 	}
 
+	@Test
+	public void execute() throws Exception {
+		System.out.println("test_CreateProducts");
+		test_CreateProducts();
+		System.out.println("test_getProducts");
+		test_getProducts();
+		System.out.println("test_getProduct");
+		test_getProduct();
+		System.out.println("test_UpdateProduct");
+		test_UpdateProduct();
+		System.out.println("test_DeleteProduct");
+		test_DeleteProduct();
+	}
 }

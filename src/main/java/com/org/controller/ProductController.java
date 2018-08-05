@@ -32,20 +32,20 @@ public class ProductController {
     }
     
    //add new Product
-    @RequestMapping(value= "product", method = RequestMethod.POST, produces= {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value= "/product", method = RequestMethod.POST, produces= {MediaType.APPLICATION_JSON_VALUE})
     public Product addProduct(@RequestBody Product prod){
     	return custService.addProduct(prod);
     }
     
     
     //Update the product
-    @RequestMapping(value="product", method=RequestMethod.PUT, produces= {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value="/product", method=RequestMethod.PUT, produces= {MediaType.APPLICATION_JSON_VALUE})
     public Product updateProduct(@RequestBody Product prod) {
     	return custService.addProduct(prod);
     }
     
     //Delete the products by id
-    @RequestMapping(value="product/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/product/{id}",method=RequestMethod.DELETE)
     public void deleteProduct(@PathVariable("id") Long id) {
     	custService.deleteProduct(id);
     }
