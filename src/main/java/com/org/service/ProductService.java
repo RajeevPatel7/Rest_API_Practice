@@ -35,7 +35,6 @@ public class ProductService {
 	}
 
 	public Product addProduct(Product prod) {
-		System.out.println(prod.getId());
 		if(prod.getId() == null || prod.getId() == 0) {
 			prod.setId(random.nextLong());
 		}

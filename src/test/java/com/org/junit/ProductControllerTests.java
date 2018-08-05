@@ -93,15 +93,10 @@ public class ProductControllerTests extends AbstractJunitTest {
 
 	@Test
 	public void execute() throws Exception {
-		System.out.println("test_CreateProducts");
 		test_CreateProducts();
-		System.out.println("test_getProducts");
 		test_getProducts();
-		System.out.println("test_getProduct");
 		test_getProduct();
-		System.out.println("test_UpdateProduct");
 		test_UpdateProduct();
-		System.out.println("test_DeleteProduct");
 		test_DeleteProduct();
 	}
 }
