@@ -3,8 +3,9 @@ package com.org.model;
 public class Product {
 	String id;
 	String name;
-	String brandName;
+	Brand brand;
 	Long price;
+	
 	public String getId() {
 		return id;
 	}
@@ -17,11 +18,11 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBrandName() {
-		return brandName;
+	public Brand getBrand() {
+		return brand;
 	}
-	public void setBrandName(String brandName) {
-		this.brandName = brandName;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 	
 	public Long getPrice() {
@@ -34,6 +35,6 @@ public class Product {
 	public String toString() {
 		return String.format(
                 "Product[id='%s' , Name='%s' , BrandName='%s', Price='%d']",
-                id, name, brandName, price);
+                id, name, brand.getName(), price);
     }
 }

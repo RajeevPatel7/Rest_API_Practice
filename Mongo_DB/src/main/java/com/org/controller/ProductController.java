@@ -25,10 +25,15 @@ public class ProductController {
     	
     }
     
-    @RequestMapping(value="/product/{id}", method=RequestMethod.GET , produces= {MediaType.APPLICATION_JSON_VALUE})
-    public Product getProductDetails(@PathVariable("id") String id){
+    @RequestMapping(value="/product/{ds}", method=RequestMethod.GET , produces= {MediaType.APPLICATION_JSON_VALUE})
+    public Product getProductDetails(@PathVariable("ds") String id){
     	return prodService.getProductDetails(id);
     	
+    }
+    
+    @RequestMapping(value = "/products/{brandName}", method=RequestMethod.GET, produces= {MediaType.APPLICATION_JSON_VALUE})
+    public List<Product> getProductsByBrandName(@PathVariable("brandName") String name){
+    	return prodService.getProductsByBrandName("name", name);
     }
     
    //add new Product

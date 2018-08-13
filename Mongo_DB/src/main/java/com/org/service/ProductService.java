@@ -1,9 +1,6 @@
 package com.org.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +13,6 @@ public class ProductService {
 	
 	@Autowired IProductDao prodDao;
 
-	static Map<Long, Product> productRepository = new HashMap<>();
-	Random random = new Random();
-	static {
-		Product prod = new Product();
-		prod.setId("234");
-		prod.setBrandName("MI");
-		prod.setName("Mobile");
-		productRepository.put(234L, prod);
-	}
 	public List<Product> getProducts() {
 		return prodDao.findAll();
 	}
@@ -38,7 +26,6 @@ public class ProductService {
 	}
 
 	public Product addProduct(Product prod) {
-		prodDao.deleteAll();
 		prodDao.save(prod);
 		return prod;
 	}
@@ -46,6 +33,10 @@ public class ProductService {
 	public List<Product> getProductsByNameAndPrice(String name, Long price) {
 		// TODO Auto-generated method stub
 		return prodDao.findByNameAndPrice(name, price);
+	}
+
+	public List<Product> getProductsByBrandName(String name,String value) {
+		return prodDao.findByBrandName(name, value);
 	}
 
 }

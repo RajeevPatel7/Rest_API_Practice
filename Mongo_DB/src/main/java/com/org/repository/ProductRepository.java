@@ -9,7 +9,9 @@ import com.org.model.Product;
 
 public interface ProductRepository extends MongoRepository<Product, String>, CustomRepository {
 	
-	@Query("{$or : [{?0 : ?1}, { ?2 : ?3}]}")
+	@Query("{$and : [{?0 : ?1}, { ?2 : ?3}]}")
 	public List<Product> andClause(String field1, String obj1, String field2, Long obj2);
+	
+	
 
 }

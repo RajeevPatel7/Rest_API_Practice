@@ -43,4 +43,9 @@ public class ProductDaoImpl implements IProductDao {
 	public List<Product> findByNameAndPrice(String name, Long price) {
 		return prodRepository.andClause("name", name, "price", price);
 	}
+
+	@Override
+	public List<Product> findByBrandName(String name, String value) {
+		return prodRepository.whereClause(name, value);
+	}
 }

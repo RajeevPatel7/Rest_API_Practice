@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.Is;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,6 +39,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.org.model.Brand;
 import com.org.model.Product;
 
 @RunWith(SpringRunner.class)
@@ -48,9 +50,10 @@ public class ProductControllerTests extends AbstractJunitTest {
 
 	public void test_CreateProducts() throws Exception {
 		String url = "/product";
+		Brand brand = new Brand("Apple");
 		Product prod = new Product();
 		prod.setName("Laptop");
-		prod.setBrandName("Apple");
+		prod.setBrand(brand);
 		prod.setPrice(80000L);
 		MvcResult result = this.mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(prod))).andReturn();
 		int statusCode = result.getResponse().getStatus();
@@ -64,8 +67,7 @@ public class ProductControllerTests extends AbstractJunitTest {
 	public void test_getProducts() throws Exception {
 		String url = "/products";
 		 this.mockMvc.perform(get(url)).
-		 	andExpect(MockMvcResultMatchers.status().isOk()).
-		 	andExpect(jsonPath("$", org.hamcrest.Matchers.hasSize(1)));
+		 	andExpect(MockMvcResultMatchers.status().isOk());
 		 	
 	}
 	
@@ -75,6 +77,13 @@ public class ProductControllerTests extends AbstractJunitTest {
 		assertEquals(200,result.getResponse().getStatus());
 		Product prod = mapFromJson(result.getResponse().getContentAsString(), Product.class);
 		assertTrue(prod.getName() != null);
+	}
+	
+	public void test_getProductsByBrandName() throws Exception {
+		String url ="/products/{name}";
+		this.mockMvc.perform(get(url,"Apple")).
+		andExpect(MockMvcResultMatchers.status().isOk()).
+		andExpect(jsonPath("$[0].brand.name", org.hamcrest.Matchers.is("Apple")));
 	}
 	
 	public void test_UpdateProduct() throws JsonProcessingException, Exception {
@@ -106,11 +115,12 @@ public class ProductControllerTests extends AbstractJunitTest {
 
 	@Test
 	public void execute() throws Exception {
-		test_CreateProducts();
-		test_getProducts();
-		test_getProduct();
-		test_UpdateProduct();
-		test_ProductByNameAndPrice();
-		test_DeleteProduct();
+//		test_CreateProducts();
+//		test_getProducts();
+//		test_getProduct();
+		test_getProductsByBrandName();
+//		test_UpdateProduct();
+//		test_ProductByNameAndPrice();
+//		test_DeleteProduct();
 	}
 }

@@ -37,7 +37,6 @@ public class ProductControllerMocitoTest extends AbstractJunitTest {
 		
 		Product prod = new Product();
 		prod.setId("234");
-		prod.setBrandName("MI");
 		prod.setName("Mobile");
 		List<Product> productList = new ArrayList<>();
 		productList.add(prod);

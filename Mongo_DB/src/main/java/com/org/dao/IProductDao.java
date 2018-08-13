@@ -18,5 +18,7 @@ public interface IProductDao {
 	void save(Product prod);
 	
 	List<Product> findByNameAndPrice(String name, Long price);
+	
+	List<Product> findByBrandName(String name, String value);
 
 }
